@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.up366.auth.db.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.up366.auth.db.pojo.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_uuid, username, fullname, mobile, email, user_type, org_id, password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from adm_users
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from adm_users
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.up366.auth.db.pojo.User">
+    insert into adm_users (user_id, user_uuid, username, 
+      fullname, mobile, email, 
+      user_type, org_id, password
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userUuid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{fullname,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.up366.auth.db.pojo.User">
+    insert into adm_users
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userUuid != null">
+        user_uuid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="fullname != null">
+        fullname,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userUuid != null">
+        #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="fullname != null">
+        #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.up366.auth.db.pojo.User">
+    update adm_users
+    <set>
+      <if test="userUuid != null">
+        user_uuid = #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="fullname != null">
+        fullname = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.up366.auth.db.pojo.User">
+    update adm_users
+    set user_uuid = #{userUuid,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      fullname = #{fullname,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER},
+      org_id = #{orgId,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 
+      author:张静转
+      time:2016-01-25 20:31:34
+      remark：获取用户列表
+   -->
+   <select id="getUserList" resultType="map">
+     select user_id userId, user_uuid userUuid, username , fullname, mobile, email, user_type userType, org_id orgId
+     from adm_users
+     where 1=1
+      <if test="fullName != null">
+  	    and fullname like concat('%', #{fullName,jdbcType=VARCHAR}, '%')
+  	  </if>
+  	  <if test="userType != null">
+  		and user_type = #{userType,jdbcType=INTEGER}
+  	  </if>
+  	  <if test="orgId != null">
+  		and org_id = #{orgId,jdbcType=INTEGER}
+  	  </if>
+        order by user_id asc
+  		limit #{pageNo, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+   </select>
+  
+  <!-- 
+      author:张静转
+      time:2016-01-26 11:36:48
+      remark：获取用户数量
+   -->
+   <select id="getUserListCount" resultType="java.lang.Integer">
+  	select count(1)
+    from adm_users
+    where 1=1
+  	  <if test="fullName != null">
+  	    and fullname like concat('%', #{fullName,jdbcType=VARCHAR}, '%')
+  	  </if>
+  	  <if test="userType != null">
+  		and user_type = #{userType,jdbcType=INTEGER}
+  	  </if>
+  	  <if test="orgId != null">
+  		and org_id = #{orgId,jdbcType=INTEGER}
+  	  </if>
+  </select>
+  
+  <!-- 
+      author:张静转
+      time:2016-01-27 17:35:53
+      remark：获取机构下用户数量
+   -->
+  <select id="getUserCountByOrgId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1)
+    from adm_users
+    where org_id = #{_parameter,jdbcType=INTEGER}
+  </select>
+  
+    <!-- 
+      author:赵云慧
+      time:2016-1-28 14:51:34
+      remark：获取岗位下可添加的用户列表
+   -->
+  <select id="getUserListByType" parameterType="map" resultMap="BaseResultMap">
+    SELECT 
+     <include refid="Base_Column_List" />
+    from adm_users  WHERE user_type=#{userType,jdbcType=INTEGER} 
+    and org_id=#{orgId,jdbcType=INTEGER} 
+    and user_id not in (
+		SELECT b.user_id from adm_user_positions b WHERE b.pst_id=#{pstId,jdbcType=INTEGER}
+		)
+  </select>
+
+  <!-- 
+      author:张静转
+      time:2016-01-27 17:35:53
+      remark：根据用户类型id获取用户类型下用户数量
+   -->
+  <select id="getUserCountByUserType" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1)
+    from adm_users
+    where user_type = #{_parameter,jdbcType=INTEGER}
+  </select>
+
+  <!-- 
+      author:张静转
+      time:2016-01-28 20:05:49
+      remark：判断用户名是否存在
+   -->
+  <select id="existByUserName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1)
+    from adm_users
+    where username = #{_parameter,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 
+      author:张静转
+      time:2016-01-28 20:05:49
+      remark：判断手机号是否存在
+   -->
+  <select id="existByMobile" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1)
+    from adm_users
+    where mobile = #{_parameter,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 
+      author:张静转
+      time:2016-01-28 20:05:49
+      remark：判断邮箱是否存在
+   -->
+  <select id="existByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1)
+    from adm_users
+    where email = #{_parameter,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="getByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select user_id, user_uuid, username, fullname, mobile, email, user_type, org_id,password
+    from adm_users
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  
+      <!-- 
+      author:赵云慧
+      time:2016-2-1 09:57:26
+      remark：获取岗位下可添加的用户列表-按查询条件
+   -->
+  <select id="getListBySearch" parameterType="map" resultType="map">
+    SELECT 
+     user_id userId, user_uuid userUuid, username , fullname, mobile, email, user_type userType, org_id orgId
+    from adm_users where     	
+	user_type=#{userType,jdbcType=INTEGER} 
+    and org_id=#{orgId,jdbcType=INTEGER} 
+    and user_id not in (
+		SELECT b.user_id from adm_user_positions b WHERE b.pst_id=#{pstId,jdbcType=INTEGER}
+		)
+	<if test="searchMsg != null">
+		and   ( username like concat('%', #{searchMsg,jdbcType=VARCHAR}, '%') 
+	  		or fullname like concat('%', #{searchMsg,jdbcType=VARCHAR}, '%') 
+	  		or mobile like concat('%', #{searchMsg,jdbcType=VARCHAR}, '%') 
+	  		or email like concat('%', #{searchMsg,jdbcType=VARCHAR}, '%')  	)	
+	</if>
+	limit #{pageNo, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}	
+  </select>
+  
+   <!-- 
+      author:赵云慧
+      time:2016-2-1 09:57:26
+      remark：获取岗位下可添加的用户列表的总数
+   -->
+  <select id="getUserCountByType" parameterType="map" resultType="java.lang.Integer">
+    SELECT count(1) from adm_users where     	
+	user_type=#{userType,jdbcType=INTEGER} 
+    and org_id=#{orgId,jdbcType=INTEGER} 
+    and user_id not in (
+		SELECT b.user_id from adm_user_positions b WHERE b.pst_id=#{pstId,jdbcType=INTEGER}
+		)
+	<if test="searchMsg != null">
+		and   ( username like concat('%', #{searchMsg,jdbcType=VARCHAR}, '%') 
+	  		or fullname like concat('%', #{searchMsg,jdbcType=VARCHAR}, '%') 
+	  		or mobile like concat('%', #{searchMsg,jdbcType=VARCHAR}, '%') 
+	  		or email like concat('%', #{searchMsg,jdbcType=VARCHAR}, '%')  	)	
+	</if>	
+  </select>
+</mapper>

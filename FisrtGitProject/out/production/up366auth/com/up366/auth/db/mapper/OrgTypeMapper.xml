@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.up366.auth.db.dao.OrgTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.up366.auth.db.pojo.OrgType" >
+    <id column="org_type_id" property="orgTypeId" jdbcType="INTEGER" />
+    <result column="org_type_name" property="orgTypeName" jdbcType="VARCHAR" />
+    <result column="org_desc" property="orgDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    org_type_id, org_type_name, org_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from adm_org_types
+    where org_type_id = #{orgTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from adm_org_types
+    where org_type_id = #{orgTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.up366.auth.db.pojo.OrgType" >
+    insert into adm_org_types (org_type_id, org_type_name, org_desc
+      )
+    values (#{orgTypeId,jdbcType=INTEGER}, #{orgTypeName,jdbcType=VARCHAR}, #{orgDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.up366.auth.db.pojo.OrgType" >
+    insert into adm_org_types
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgTypeId != null" >
+        org_type_id,
+      </if>
+      <if test="orgTypeName != null" >
+        org_type_name,
+      </if>
+      <if test="orgDesc != null" >
+        org_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgTypeId != null" >
+        #{orgTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="orgTypeName != null" >
+        #{orgTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgDesc != null" >
+        #{orgDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.up366.auth.db.pojo.OrgType" >
+    update adm_org_types
+    <set >
+      <if test="orgTypeName != null" >
+        org_type_name = #{orgTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgDesc != null" >
+        org_desc = #{orgDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where org_type_id = #{orgTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.up366.auth.db.pojo.OrgType" >
+    update adm_org_types
+    set org_type_name = #{orgTypeName,jdbcType=VARCHAR},
+      org_desc = #{orgDesc,jdbcType=VARCHAR}
+    where org_type_id = #{orgTypeId,jdbcType=INTEGER}
+  </update>
+
+   <!-- 
+      author:张静转
+      time:2016-01-22 16:51:30
+      remark：获取机构类型全部信息
+   -->
+	<select id="selectAllTypes" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from adm_org_types
+	</select>
+	
+	
+  
+  <!-- 
+  	remark:查询机构类型条数
+	author:赵云慧
+	date:2016-1-20 11:23:10
+   -->
+  <select id="getOrgTypeListCount" resultType="java.lang.Integer">
+  		select count(1) from adm_org_types where  1=1
+  		<if test="orgTypeName!=null"> 		
+  		 and org_type_name like CONCAT('%',#{orgTypeName,jdbcType=VARCHAR},'%' )  
+  		</if> 
+  </select>
+   
+  <!-- 
+  	remark:根据条件查询机构类型(分页)
+	author:赵云慧
+	date:2016-1-20 11:24:13
+   -->
+	<select id="getOrgTypeList" parameterType="map" resultMap="BaseResultMap">
+		select org_type_id,org_type_name,org_desc from adm_org_types
+		<if test="orgTypeName!=null">
+		where org_type_name like CONCAT('%',#{orgTypeName,jdbcType=VARCHAR},'%' )
+  		</if>
+		order by org_type_id
+		limit #{pageNo, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+	</select>
+
+	<!-- 
+  	remark:根据机构类型名称查询
+	author:赵云慧
+	date:2016-1-22 13:45:51
+   -->
+	<select id="selectByOrgTypeName" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(1) from adm_org_types  
+		where  org_type_name = #{orgTypeName,jdbcType=VARCHAR}
+	</select>
+  
+  
+  <!-- 
+  	author:denglinfan
+  	date:2016/1/20 11:35
+  	remark:查询出所有的机构类型数据
+   -->
+   <select id="selectAll" resultMap="BaseResultMap">
+   	select
+   	<include refid="Base_Column_List"></include>
+   	from adm_org_types
+   </select>
+   
+   <!-- 
+      author:张静转
+      time:2016-05-03 15:30:08
+      remark：获取机构类型信息map，key为id，value为机构类型名称
+   -->
+  <select id="selectOrgTypeMap" resultType="map" parameterType="com.up366.auth.common.utils.MapParam">
+    select org_type_id, org_type_name
+    from adm_org_types
+  </select>
+</mapper>

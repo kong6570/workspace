@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.up366.auth.db.dao.UserTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.up366.auth.db.pojo.UserType" >
+    <id column="user_type_id" property="userTypeId" jdbcType="INTEGER" />
+    <result column="user_type_name" property="userTypeName" jdbcType="VARCHAR" />
+    <result column="org_type_id" property="orgTypeId" jdbcType="INTEGER" />
+    <result column="user_type_desc" property="userTypeDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_type_id, user_type_name, org_type_id, user_type_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from adm_user_types
+    where user_type_id = #{userTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from adm_user_types
+    where user_type_id = #{userTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.up366.auth.db.pojo.UserType" >
+    insert into adm_user_types (user_type_id, user_type_name, org_type_id, 
+      user_type_desc)
+    values (#{userTypeId,jdbcType=INTEGER}, #{userTypeName,jdbcType=VARCHAR}, #{orgTypeId,jdbcType=INTEGER}, 
+      #{userTypeDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.up366.auth.db.pojo.UserType" >
+    insert into adm_user_types
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userTypeId != null" >
+        user_type_id,
+      </if>
+      <if test="userTypeName != null" >
+        user_type_name,
+      </if>
+      <if test="orgTypeId != null" >
+        org_type_id,
+      </if>
+      <if test="userTypeDesc != null" >
+        user_type_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userTypeId != null" >
+        #{userTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userTypeName != null" >
+        #{userTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgTypeId != null" >
+        #{orgTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userTypeDesc != null" >
+        #{userTypeDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.up366.auth.db.pojo.UserType" >
+    update adm_user_types
+    <set >
+      <if test="userTypeName != null" >
+        user_type_name = #{userTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgTypeId != null" >
+        org_type_id = #{orgTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userTypeDesc != null" >
+        user_type_desc = #{userTypeDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_type_id = #{userTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.up366.auth.db.pojo.UserType" >
+    update adm_user_types
+    set user_type_name = #{userTypeName,jdbcType=VARCHAR},
+      org_type_id = #{orgTypeId,jdbcType=INTEGER},
+      user_type_desc = #{userTypeDesc,jdbcType=VARCHAR}
+    where user_type_id = #{userTypeId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 
+      author:张静转
+      time:2016-01-20 10:40:41
+      remark：获取用户类型列表
+   -->
+  <select id="getUserTypeList" resultType="map" >
+  select ut.user_type_id userTypeId, ut.user_type_name userTypeName, ot.org_type_name orgTypeName
+  from adm_user_types ut, adm_org_types ot
+  where 1=1
+  	<if test="userTypeName != null">
+  		and ut.user_type_name like concat('%', #{userTypeName,jdbcType=VARCHAR}, '%')
+  	</if>
+  		and ut.org_type_id = ot.org_type_id
+  		order by ut.user_type_id asc
+  		limit #{pageNo, jdbcType=INTEGER} , #{pageSize, jdbcType=INTEGER}
+  </select>
+  
+  <!-- 
+      author:张静转
+      time:2016-01-20 11:03:40
+      remark：获取用户类型数量
+   -->
+  <select id="getUserTypeListCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+  	select count(1) from adm_user_types where 1=1
+  	<if test="_parameter != null">
+  		and user_type_name like "%"#{_parameter,jdbcType=VARCHAR}"%"
+  	</if>
+  </select>
+  
+  <!-- 
+      author:张静转
+      time:2016-01-26 10:49:47
+      remark：获取用户类型信息map，key为id，value为用户类型名称
+   -->
+  <select id="find" resultType="map" parameterType="com.up366.auth.common.utils.MapParam">
+    select user_type_id, user_type_name
+    from adm_user_types
+  </select>
+  
+  <select id="getUserType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select ut.user_type_id user_type_id, ut.user_type_name user_type_name, ut.org_type_id org_type_id, ut.user_type_desc user_type_desc
+    from adm_user_types ut,adm_organs o
+    where o.org_id = #{_parameter,jdbcType=INTEGER}
+    and ut.org_type_id = o.org_type_id
+  </select>
+  
+   <!-- 
+      author:byn
+      time:2016-01-26 10:49:47
+      remark：获取用户类型信息map，key为id，name为用户类型名称
+   -->
+  <select id="getAllTypes" resultType="map">
+    select user_type_id as id, user_type_name as  name
+    from adm_user_types
+  </select>
+</mapper>
