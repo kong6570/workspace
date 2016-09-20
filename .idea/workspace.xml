@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dd913cd8-fc96-42bb-9b7b-89f9987f6c8d" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\idea_workspace\gitWorkspace\workspace\FisrtGitProject\leetcode\src\Atoi.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\idea_workspace\gitWorkspace\workspace\FisrtGitProject\leetcode\web\WEB-INF\web.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\idea_workspace\gitWorkspace\workspace\FisrtGitProject\leetcode\web\index.jsp" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FisrtGitProject/leetcode/leetcode.iml" afterPath="$PROJECT_DIR$/FisrtGitProject/leetcode/leetcode.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="workspace.iws" />
@@ -37,7 +31,7 @@
       <file leaf-file-name="Atoi.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/leetcode/src/Atoi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59799" vertical-offset="383" max-vertical-offset="1060">
+            <state vertical-scroll-proportion="0.5989933" vertical-offset="383" max-vertical-offset="1060">
               <caret line="37" column="5" selection-start-line="4" selection-start-column="4" selection-end-line="37" selection-end-column="5" />
               <folding />
             </state>
@@ -495,12 +489,12 @@
       <updated>1474256278080</updated>
       <workItem from="1474256279665" duration="12138000" />
       <workItem from="1474333501865" duration="2038000" />
-      <workItem from="1474341454416" duration="358000" />
+      <workItem from="1474341454416" duration="832000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14534000" />
+    <option name="totallyTimeSpent" value="15008000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="0" />
@@ -604,7 +598,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/leetcode/src/Atoi.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59799" vertical-offset="383" max-vertical-offset="1060">
+        <state vertical-scroll-proportion="0.5989933" vertical-offset="383" max-vertical-offset="1060">
           <caret line="37" column="5" selection-start-line="4" selection-start-column="4" selection-end-line="37" selection-end-column="5" />
           <folding />
         </state>
