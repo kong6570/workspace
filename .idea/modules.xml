@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FisrtGitProject/leetcode/leetcode.iml" filepath="$PROJECT_DIR$/FisrtGitProject/leetcode/leetcode.iml" />
       <module fileurl="file://$PROJECT_DIR$/leetcode/leetcode1.iml" filepath="$PROJECT_DIR$/leetcode/leetcode1.iml" />
     </modules>
   </component>
