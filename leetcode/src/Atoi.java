@@ -8,61 +8,33 @@ public class Atoi {
             return 0;
         }
 
-        int result = 0;
+        double result = 0;
         boolean negative = false;
-        int i = 0, max = str.length();
-        int limit;
-        int multmin;
-        int digit;
+        int i = 0;
+        int length = str.length();
+        if(str.charAt(i) == '-'){
+            negative = true;
+            i++;
+        }else if(str.charAt(i) == '+'){
+            i++;
+        }
 
-        if (max > 0) {
-            if (str.charAt(0) == '-') {
-                negative = true;
-                limit = Integer.MIN_VALUE;
-                i++;
-            }else if(str.charAt(0) == '+'){
-                i++;
-                limit = -Integer.MAX_VALUE;
-            }
-            else {
-                limit = -Integer.MAX_VALUE;
-            }
-            multmin = limit / 10;
-            if (i < max) {
-                digit = Character.digit(str.charAt(i++),10);
-                if (digit < 0) {
-                    return 0;
-                } else {
-                    result = -digit;
-                }
-            }
-            while (i < max) {
-                // Accumulating negatively avoids surprises near MAX_VALUE
-                digit = Character.digit(str.charAt(i++),10);
-                if (digit < 0) {
-                    break;
-                }
-                if (result < multmin) {
-                    return 0;
-                }
-                result *= 10;
-                if (result < limit + digit) {
-                    return 0;
-                }
-                result -= digit;
-            }
-        } else {
-            return 0;
+        while(i < length && str.charAt(i) >= '0' && str.charAt(i) <='9'){
+            result = result * 10 + (str.charAt(i) - '0');
+            i++;
         }
-        if (negative) {
-            if (i > 1) {
-                return result;
-            } else {
-                return 0;
-            }
-        } else {
-            return -result;
+
+        if(negative){
+            result = -result;
         }
+
+        if(result > Integer.MAX_VALUE){
+            return Integer.MAX_VALUE;
+        }
+        if(result < Integer.MIN_VALUE){
+            return  Integer.MIN_VALUE;
+        }
+        return (int)result;
     }
 
     public static void main(String[] args){
