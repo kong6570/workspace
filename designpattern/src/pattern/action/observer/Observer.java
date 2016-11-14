@@ -10,4 +10,11 @@ public interface Observer {
      *@author zhangjingzhuan
      */
     public void update(Subject subject);
+    
+    /**
+     *return id
+     *@date 2016/11/14
+     *@author zhangjingzhuan
+     */
+    public int getId();
 }

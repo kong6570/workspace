@@ -16,7 +16,7 @@ public interface Subject {
      *@date 2016/11/14
      *@author zhangjingzhuan
      */
-    public void detach(Observer observer);
+    public void detach(int id);
     
     /**
      *notice all observer
@@ -24,4 +24,18 @@ public interface Subject {
      *@author zhangjingzhuan
      */
     public void noticeAll();
+    
+    /**
+     *get status
+     *@date 2016/11/14
+     *@author zhangjingzhuan
+     */
+    public int getStatus();
+
+    /**
+     *set status
+     *@date 2016/11/14
+     *@author zhangjingzhuan
+     */
+    public void setStatus(int status);
 }
